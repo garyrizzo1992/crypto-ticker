@@ -9,10 +9,9 @@ node{
 //      sh "${mvnCMD} clean package"
 //    }
    stage('Build Docker Image'){
-     sh  'cd yfinance'
-     sh 'pwd'
-     sh 'ls'
-     sh  "docker build -t garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
+      dir("yfinance"){
+         sh  "docker build -t garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ." 
+      }
    }
    stage('Push Docker Image'){
      withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
