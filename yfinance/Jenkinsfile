@@ -20,7 +20,6 @@ node{
      sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
    }
     stage('Release') {
-      steps {
         script {
             def monitor = [:]
             monitor.name = 'rpi'
@@ -40,7 +39,7 @@ node{
             }
           }
         
-      }
+      
     }
     post {
         always {
