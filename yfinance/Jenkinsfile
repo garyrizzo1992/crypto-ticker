@@ -33,7 +33,7 @@ node{
                 passphraseVariable: '',
                 usernameVariable:   'userName'
             )]) {
-              monitor.user         = userName
+              monitor.user         = "pi"
               monitor.identityFile = identity
               sshCommand remote: monitor, command: "sh ls"
             }
