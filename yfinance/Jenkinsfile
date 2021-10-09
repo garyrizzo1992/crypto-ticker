@@ -19,12 +19,29 @@ node{
      }
      sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
    }
-//    stage('Run Container on Dev Server'){
-//      def dockerRun = 'docker run -p 8080:8080 -d --name my-app kammana/my-app:2.0.0'
-//      sshagent(['dev-server']) {
-//        sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.18.198 ${dockerRun}"
-//      }
-//    }
+    stage('Release') {
+      steps {
+        script {
+            def monitor = [:]
+            monitor.name = 'rpi'
+            monitor.host = '192.168.1.32'
+            monitor.port = 22
+            monitor.allowAnyHosts = true
+            withCredentials([
+              sshUserPrivateKey(
+                credentialsId:      'gary-ThinkPad-T495s',
+                keyFileVariable:    'identity',
+                passphraseVariable: '',
+                usernameVariable:   'userName'
+            )]) {
+              monitor.user         = userName
+              monitor.identityFile = identity
+              sshCommand remote: monitor, command: "sh ls"
+            }
+          }
+        
+      }
+    }
     post {
         always {
             deleteDir() /* clean up our workspace */
