@@ -1,0 +1,1 @@
+docker build . -t cryptocmd:v1 ; docker run  --publish 8085:80 cryptocmd:v1
