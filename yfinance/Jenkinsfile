@@ -23,5 +23,5 @@ node{
 //      sshagent(['dev-server']) {
 //        sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.18.198 ${dockerRun}"
 //      }
-   }
+//    }
 }
