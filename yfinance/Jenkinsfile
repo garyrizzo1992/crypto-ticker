@@ -20,6 +20,7 @@ node{
      sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
    }
     stage('Release') {
+            withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
         script {
             def monitor = [:]
             monitor.name = 'rpi'
@@ -35,9 +36,11 @@ node{
             )]) {
               monitor.user         = "pi"
               monitor.identityFile = identity
-              sshCommand remote: monitor, command: "sh ls"
+              sshCommand remote: monitor, command: "docker login registry.gitlab.com -u ${user} -p ${pass}"
+              sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
             }
           }
+            }
         
       
     }
