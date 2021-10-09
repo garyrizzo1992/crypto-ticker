@@ -9,14 +9,14 @@ node{
 //      sh "${mvnCMD} clean package"
 //    }
    stage('Build Docker Image'){
-     echo 'cd yfinance'
-     echo 'docker build -t garyrizzo1992/crypto-ticker:${BUILD_NUMBER} .'
+     bat  'cd yfinance'
+     bat  'docker build -t garyrizzo1992/crypto-ticker:${BUILD_NUMBER} .'
    }
    stage('Push Docker Image'){
      withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
-        echo "docker login registry.gitlab.com -u ${user} -p ${pass}"
+        bat  "docker login registry.gitlab.com -u ${user} -p ${pass}"
      }
-     echo "docker push garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+     bat  "docker push garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
    }
 //    stage('Run Container on Dev Server'){
 //      def dockerRun = 'docker run -p 8080:8080 -d --name my-app kammana/my-app:2.0.0'
