@@ -1,7 +1,7 @@
 
 node{
    stage('SCM Checkout'){
-       git credentialsId: 'git-creds', url: 'https://github.com/garyrizzo1992/crypto-ticker'
+       git credentialsId: 'github-creds', url: 'https://github.com/garyrizzo1992/crypto-ticker'
    }
 //    stage('Mvn Package'){
 //      def mvnHome = tool name: 'maven-3', type: 'maven'
@@ -9,14 +9,14 @@ node{
 //      sh "${mvnCMD} clean package"
 //    }
    stage('Build Docker Image'){
-     bat  'cd yfinance'
-     bat  "docker build -t garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
+     sh  'cd yfinance'
+     sh  "docker build -t garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
    }
    stage('Push Docker Image'){
      withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
-        bat  "docker login registry.gitlab.com -u ${user} -p ${pass}"
+        sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
      }
-     bat "docker push garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+     sh "docker push garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
    }
 //    stage('Run Container on Dev Server'){
 //      def dockerRun = 'docker run -p 8080:8080 -d --name my-app kammana/my-app:2.0.0'
