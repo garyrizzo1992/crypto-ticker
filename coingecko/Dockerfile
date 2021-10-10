@@ -1,5 +1,8 @@
 FROM python:3
 
+RUN apt-get python-dev
+
+
 RUN pip install pycoingecko
 RUN pip install flask
 
