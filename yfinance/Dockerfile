@@ -1,7 +1,6 @@
-FROM arm32v7/python
+FROM python:3.8
 
-RUN pip install yfinance
-RUN pip install plotly
+RUN pip install yfinance -v
 
 ADD get.py /usr/local/bin/
 
