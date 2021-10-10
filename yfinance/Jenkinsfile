@@ -21,6 +21,7 @@ node{
    // }
    stage('generate artifact'){
       sh '''
+         pwd
          ls
          mkdir crypto-ticker
          cp yfinance/get.py crypto-ticker/get.py
