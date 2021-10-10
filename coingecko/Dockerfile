@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3-buster
 
 RUN pip install pandas
 RUN pip install pycoingecko
