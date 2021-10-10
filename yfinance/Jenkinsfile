@@ -44,8 +44,8 @@ node{
             )]) {
               monitor.user         = "pi"
               monitor.identityFile = identity
-              sshPut     remote: monitor, from: 'crypto-ticker.tar', into: "/data/" , sudo: true
-              sshCommand remote: monitor, command: "tar -xvf /data/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
+              sshPut     remote: monitor, from: 'crypto-ticker.tar', into: "/tmp/" , sudo: true
+              sshCommand remote: monitor, command: "tar -xvf /tmp/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
               sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
               sshCommand remote: monitor, command: "docker run crypto-ticker:${BUILD_NUMBER}"
               sshCommand remote: monitor, command: "rm -r /data/workspace" , sudo: true
