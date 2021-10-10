@@ -1,4 +1,4 @@
-FROM python:3
+FROM arm32v7/python
 
 RUN pip install yfinance
 RUN pip install plotly
