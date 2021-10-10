@@ -23,12 +23,12 @@ node{
 //          '''
 //       }
 //    }
-   stage('Push Docker Image'){
-     withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
-        sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
-     }
-     sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
-   }
+  //  stage('Push Docker Image'){
+  //    withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
+  //       sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
+  //    }
+  //    sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+  //  }
    // stage('generate artifact'){
    //    sh '''
    //       mkdir crypto-ticker -p
