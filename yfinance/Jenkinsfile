@@ -62,7 +62,7 @@ node{
               // sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
               sshCommand remote: monitor, command: "rm yfinance -r || true",sudo: true
               sshCommand remote: monitor, command: "git clone https://github.com/ranaroussi/yfinance.git"
-              sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+              // sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
               sshCommand remote: monitor, command: "pip install -r yfinance/requirements.txt -v"
               sshCommand remote: monitor, command: "pip install yfinance/."
             //   sshCommand remote: monitor, command: "rm -r /data/workspace" , sudo: true
