@@ -8,16 +8,24 @@ node{
 //      def mvnCMD = "${mvnHome}/bin/mvn"
 //      sh "${mvnCMD} clean package"
 //    }
-   stage('Build Docker Image'){
-      dir("yfinance"){
-         sh  "docker build -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
-      }
-   }
-   stage('Push Docker Image'){
-     withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
-        sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
-     }
-     sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+   // stage('Build Docker Image'){
+   //    dir("yfinance"){
+   //       sh  "docker build -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
+   //    }
+   // }
+   // stage('Push Docker Image'){
+   //   withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
+   //      sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
+   //   }
+   //   sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+   // }
+   stage('generate artifact'){
+      sh '''
+         mkdir crypto-ticker
+         cp get.py crypto-ticker/get.py
+         cp Dockerfile crypto-ticker/Dockerfile
+         tar -cf crypto-ticker.tar crypto-ticker
+      '''
    }
     stage('Release') {
             withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
@@ -36,8 +44,11 @@ node{
             )]) {
               monitor.user         = "pi"
               monitor.identityFile = identity
-              sshCommand remote: monitor, command: "docker login registry.gitlab.com -u ${user} -p ${pass}"
-              sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+              sshPut     remote: monitor, from: 'crypto-ticker.tar', into: "/data/"
+              sshCommand remote: monitor, command: "tar -xvf /data/crypto-ticker.tar --strip 1 --directory /data/workspace/"
+              sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
+              sshCommand remote: monitor, command: "docker run crypto-ticker:${BUILD_NUMBER}"
+              sshCommand remote: monitor, command: "rm -r /data/workspace"
             }
           }
             }
