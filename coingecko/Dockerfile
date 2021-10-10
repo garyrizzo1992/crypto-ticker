@@ -1,6 +1,6 @@
 FROM python:3
 
-RUN apt-get python-dev
+RUN apt-get install python-dev
 
 
 RUN pip install pycoingecko
