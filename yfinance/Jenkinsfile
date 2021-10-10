@@ -21,6 +21,7 @@ node{
    // }
    stage('generate artifact'){
       sh '''
+         ls
          mkdir crypto-ticker
          cp get.py crypto-ticker/get.py
          cp Dockerfile crypto-ticker/Dockerfile
