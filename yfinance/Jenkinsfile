@@ -5,7 +5,7 @@ node{
    }
    stage('Build Docker Image'){
       dir("yfinance"){
-         sh  "docker buildx build --platform linux/amd64,armv7l -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
+         sh  "docker buildx build --platform linux/amd64,linux/arm/v7 -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
       }
    }
    stage('Push Docker Image'){
