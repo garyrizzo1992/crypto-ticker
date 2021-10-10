@@ -20,17 +20,17 @@ app.config["DEBUG"] = True
 
 
 @app.route('/get_coin_price', methods=['GET'])
-def home():
+def coinprice():
     coin = flask.request.args.get('coin', default='bitcoin', type=Text)
     vs = flask.request.args.get('vs', default='usd', type=Text)
     return get_coin_price(coin,vs)
 
 @app.route('/get_supported_vs_currencies', methods=['GET'])
-def home():
+def getvscurrencies():
     return get_supported_vs_currencies()
 
 @app.route('/get_coins_list', methods=['GET'])
-def home():
+def coinlist():
     return get_coins_list()
 
 if __name__ == '__main__':
