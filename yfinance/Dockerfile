@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:buster
 
 RUN pip install yfinance
 RUN pip install plotly

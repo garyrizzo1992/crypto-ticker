@@ -59,7 +59,6 @@ node{
     post {
         always {
             deleteDir() /* clean up our workspace */
-            sh "docker rm registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
         }
     }
 }
