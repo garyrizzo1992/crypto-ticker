@@ -2,7 +2,8 @@ FROM python:3.6
 
 USER root 
 
-RUN pip install pycoingecko -v
+RUN pip install pycoingecko
+RUN pip install pip install flask
 
 ADD get.py /usr/local/bin/
 
