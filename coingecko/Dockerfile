@@ -1,8 +1,6 @@
 FROM python:3
 
-RUN apt-get install python-dev
-
-
+RUN pip install pandas
 RUN pip install pycoingecko
 RUN pip install flask
 
