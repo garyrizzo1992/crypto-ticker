@@ -43,7 +43,7 @@ node{
               sshPut     remote: monitor, from: 'crypto-ticker.tar', into: "/tmp/" , sudo: true
               sshCommand remote: monitor, command: "mkdir -p /data/workspace/" , sudo: true
               sshCommand remote: monitor, command: "tar -xvf /tmp/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
-              sshCommand remote: monitor, command: "docker rm -f $(docker ps -a -q)"
+              sshCommand remote: monitor, command: "docker rm -f \$(docker ps -a -q)"
               sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
               sshCommand remote: monitor, command: "docker run --name crypto-ticker -p 8080:80 crypto-ticker:${BUILD_NUMBER} "
             }
