@@ -60,6 +60,7 @@ node{
             //   sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
             //   sshCommand remote: monitor, command: "docker run crypto-ticker:${BUILD_NUMBER}"
               // sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+              sshCommand remote: monitor, command: "rm yfinance -r",sudo: true
               sshCommand remote: monitor, command: "git clone https://github.com/ranaroussi/yfinance.git"
               sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
               sshCommand remote: monitor, command: "pip install -r yfinance/requirements.txt -v"
