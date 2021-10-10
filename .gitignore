@@ -1,3 +1,4 @@
-yfinance/env/*
-yfinance/output/*
-yfinance/yfinance/*
+yfinance/env
+yfinance/output
+yfinance/yfinance
+coingecko/env
