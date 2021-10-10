@@ -1,4 +1,5 @@
 
+pipeline {
 node{
    stage('SCM Checkout'){
        git credentialsId: 'github-creds', url: 'https://github.com/garyrizzo1992/crypto-ticker'
@@ -52,6 +53,7 @@ node{
         
       
     }
+}
 }
     post {
         always {
