@@ -1,2 +1,3 @@
-env/*
-yfinance/*
+yfinance/env/*
+yfinance/output/*
+yfinance/yfinance/*
