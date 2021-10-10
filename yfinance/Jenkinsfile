@@ -23,8 +23,8 @@ node{
       sh '''
          ls
          mkdir crypto-ticker
-         cp get.py crypto-ticker/get.py
-         cp Dockerfile crypto-ticker/Dockerfile
+         cp yfinance/get.py crypto-ticker/get.py
+         cp yfinance/Dockerfile crypto-ticker/Dockerfile
          tar -cf crypto-ticker.tar crypto-ticker
       '''
    }
