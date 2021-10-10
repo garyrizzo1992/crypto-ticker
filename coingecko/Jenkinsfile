@@ -45,7 +45,7 @@ node{
               sshCommand remote: monitor, command: "tar -xvf /tmp/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
               sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
               sshCommand remote: monitor, command: "docker rm crypto-ticker --force"
-              sshCommand remote: monitor, command: "docker run --name crypto-ticker crypto-ticker:${BUILD_NUMBER} "
+              sshCommand remote: monitor, command: "docker run --name crypto-ticker -p 8080:80 crypto-ticker:${BUILD_NUMBER} "
             }
           }
             }
