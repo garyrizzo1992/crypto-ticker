@@ -5,7 +5,7 @@ node{
    }
    stage('Build Docker Image & push'){
           withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
-      dir("yfinance"){
+      dir("coingecko"){
          sh '''
          docker buildx create --name mybuilder || true
          docker buildx use mybuilder
