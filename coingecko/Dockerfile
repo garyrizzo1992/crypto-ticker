@@ -1,7 +1,7 @@
 FROM python:3
 
 RUN pip install pycoingecko
-RUN pip install pip install flask
+RUN pip install flask
 
 ADD get.py /usr/local/bin/
 
