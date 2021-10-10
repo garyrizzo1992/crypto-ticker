@@ -1,5 +1,4 @@
 
-pipeline {
 node{
    stage('SCM Checkout'){
        git credentialsId: 'github-creds', url: 'https://github.com/garyrizzo1992/crypto-ticker'
@@ -49,15 +48,9 @@ node{
               sshCommand remote: monitor, command: "docker run -d --name crypto-ticker -p 8080:80 crypto-ticker:${BUILD_NUMBER} "
             }
           }
+          deleteDir() /* clean up our workspace */
             }
         
       
     }
 }
-}
-    post {
-        always {
-            deleteDir() /* clean up our workspace */
-        }
-    }
-
