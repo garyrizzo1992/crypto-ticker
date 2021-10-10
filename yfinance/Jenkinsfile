@@ -12,17 +12,17 @@ node{
   //        '''
   //     }
   //  }
-   stage('Build Docker Image'){
-      dir("yfinance"){
-         sh '''
-git clone https://github.com/ranaroussi/yfinance.git
-cd yfinance
-pip install -r requirements.txt -v
-pip install .
+//    stage('Build Docker Image'){
+//       dir("yfinance"){
+//          sh '''
+// git clone https://github.com/ranaroussi/yfinance.git
+// cd yfinance
+// pip install -r requirements.txt -v
+// pip install .
 
-         '''
-      }
-   }
+//          '''
+//       }
+//    }
    stage('Push Docker Image'){
      withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
         sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
@@ -59,7 +59,11 @@ pip install .
             //   sshCommand remote: monitor, command: "tar -xvf /tmp/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
             //   sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
             //   sshCommand remote: monitor, command: "docker run crypto-ticker:${BUILD_NUMBER}"
+              // sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+              sshCommand remote: monitor, command: "git clone https://github.com/ranaroussi/yfinance.git"
               sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+              sshCommand remote: monitor, command: "pip install -r yfinance/requirements.txt -v"
+              sshCommand remote: monitor, command: "pip install yfinance/."
             //   sshCommand remote: monitor, command: "rm -r /data/workspace" , sudo: true
             }
           }
