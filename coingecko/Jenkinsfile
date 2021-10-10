@@ -18,8 +18,8 @@ node{
    stage('generate artifact'){
       sh '''
          mkdir crypto-ticker -p
-         cp coingecko/get.py coingecko/get.py
-         cp coingecko/Dockerfile coingeckocoingecko/Dockerfile
+         cp coingecko/get.py crypto-ticker/get.py
+         cp coingecko/Dockerfile crypto-ticker/Dockerfile
          tar -cf crypto-ticker.tar crypto-ticker
       '''
    }
