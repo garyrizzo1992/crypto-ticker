@@ -3,12 +3,23 @@ node{
    stage('SCM Checkout'){
        git credentialsId: 'github-creds', url: 'https://github.com/garyrizzo1992/crypto-ticker'
    }
+  //  stage('Build Docker Image'){
+  //     dir("yfinance"){
+  //        sh '''
+  //        docker buildx create --name mybuilder || true
+  //        docker buildx use mybuilder
+  //        docker buildx build --platform linux/arm/v7 -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} . --load   
+  //        '''
+  //     }
+  //  }
    stage('Build Docker Image'){
       dir("yfinance"){
          sh '''
-         docker buildx create --name mybuilder || true
-         docker buildx use mybuilder
-         docker buildx build --platform linux/arm/v7 -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} . --load   
+git clone https://github.com/ranaroussi/yfinance.git
+cd yfinance
+pip install -r requirements.txt -v
+pip install .
+
          '''
       }
    }
