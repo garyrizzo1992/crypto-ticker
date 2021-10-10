@@ -3,30 +3,25 @@ node{
    stage('SCM Checkout'){
        git credentialsId: 'github-creds', url: 'https://github.com/garyrizzo1992/crypto-ticker'
    }
-//    stage('Mvn Package'){
-//      def mvnHome = tool name: 'maven-3', type: 'maven'
-//      def mvnCMD = "${mvnHome}/bin/mvn"
-//      sh "${mvnCMD} clean package"
-//    }
-   // stage('Build Docker Image'){
-   //    dir("yfinance"){
-   //       sh  "docker build -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
-   //    }
-   // }
-   // stage('Push Docker Image'){
-   //   withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
-   //      sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
-   //   }
-   //   sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
-   // }
-   stage('generate artifact'){
-      sh '''
-         mkdir crypto-ticker -p
-         cp yfinance/get.py crypto-ticker/get.py
-         cp yfinance/Dockerfile crypto-ticker/Dockerfile
-         tar -cf crypto-ticker.tar crypto-ticker
-      '''
+   stage('Build Docker Image'){
+      dir("yfinance"){
+         sh  "docker buildx build --platform linux/amd64,armv7l -t registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER} ."
+      }
    }
+   stage('Push Docker Image'){
+     withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
+        sh  "docker login registry.gitlab.com -u ${user} -p ${pass}"
+     }
+     sh "docker push registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+   }
+   // stage('generate artifact'){
+   //    sh '''
+   //       mkdir crypto-ticker -p
+   //       cp yfinance/get.py crypto-ticker/get.py
+   //       cp yfinance/Dockerfile crypto-ticker/Dockerfile
+   //       tar -cf crypto-ticker.tar crypto-ticker
+   //    '''
+   // }
     stage('Release') {
             withCredentials([usernamePassword(credentialsId: 'gitlab-creds', usernameVariable: 'user', passwordVariable: 'pass')]) {
         script {
@@ -44,12 +39,13 @@ node{
             )]) {
               monitor.user         = "pi"
               monitor.identityFile = identity
-              sshPut     remote: monitor, from: 'crypto-ticker.tar', into: "/tmp/" , sudo: true
-              sshCommand remote: monitor, command: "mkdir -p /data/workspace/" , sudo: true
-              sshCommand remote: monitor, command: "tar -xvf /tmp/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
-              sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
-              sshCommand remote: monitor, command: "docker run crypto-ticker:${BUILD_NUMBER}"
-              sshCommand remote: monitor, command: "rm -r /data/workspace" , sudo: true
+            //   sshPut     remote: monitor, from: 'crypto-ticker.tar', into: "/tmp/" , sudo: true
+            //   sshCommand remote: monitor, command: "mkdir -p /data/workspace/" , sudo: true
+            //   sshCommand remote: monitor, command: "tar -xvf /tmp/crypto-ticker.tar --strip 1 --directory /data/workspace/" , sudo: true
+            //   sshCommand remote: monitor, command: "docker build -t crypto-ticker:${BUILD_NUMBER} /data/workspace/"
+            //   sshCommand remote: monitor, command: "docker run crypto-ticker:${BUILD_NUMBER}"
+              sshCommand remote: monitor, command: "docker run registry.gitlab.com/garyrizzo1992/crypto-ticker:${BUILD_NUMBER}"
+            //   sshCommand remote: monitor, command: "rm -r /data/workspace" , sudo: true
             }
           }
             }
